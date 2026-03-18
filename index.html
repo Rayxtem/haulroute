@@ -88,21 +88,74 @@
   .stop-name{font-size:14px;color:#F5F0E8;font-weight:500}
   .stop-detail{font-size:12px;color:#888780}
   .stop-badge{font-size:11px;background:rgba(99,153,34,0.15);color:#639922;padding:3px 8px;border-radius:3px;white-space:nowrap}
+
+/* SCROLL REVEAL */
+.js-ready .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.js-ready .reveal.visible{opacity:1;transform:translateY(0)}
+.js-ready .reveal-left{opacity:0;transform:translateX(-50px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.js-ready .reveal-left.visible{opacity:1;transform:translateX(0)}
+.js-ready .reveal-right{opacity:0;transform:translateX(50px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.js-ready .reveal-right.visible{opacity:1;transform:translateX(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+/* NUMBER COUNTER */
+.counter{display:inline-block}
+
+/* MAGNETIC */
+.magnetic{transition:transform 0.3s cubic-bezier(0.16,1,0.3,1)}
+
+/* HERO PARTICLE */
+.particle{position:absolute;border-radius:50%;background:rgba(232,98,42,0.15);pointer-events:none;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100vh) translateX(30px);opacity:0}}
+
+/* TEXT SHIMMER */
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+.shimmer-text{background:linear-gradient(90deg,#E8622A,#F5A623,#E8622A,#F5A623);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+
+/* HERO MOTION BLUR LINE */
+.motion-line{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(232,98,42,0.4),transparent);animation:motionLine 3s ease-in-out infinite}
+@keyframes motionLine{0%{width:0;left:0;opacity:0}50%{width:60%;opacity:1}100%{width:0;left:100%;opacity:0}}
+
+/* STAT GLOW ON HOVER */
+.stat{transition:transform 0.3s ease}
+.stat:hover{transform:translateY(-4px)}
+.stat:hover .stat-num{text-shadow:0 0 30px rgba(255,255,255,0.3)}
+
+/* DOT GRID PATTERNS */
+.hero{background-image:radial-gradient(circle,rgba(232,98,42,0.15) 1px,transparent 1px);background-size:32px 32px;background-color:var(--truck-dark)}
+.dot-grid-cream{position:relative}
+.dot-grid-cream::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(136,135,128,0.2) 1px,transparent 1px);background-size:24px 24px;pointer-events:none;z-index:0}
+.dot-grid-cream>*{position:relative;z-index:1}
+.dot-grid-dark{position:relative}
+.dot-grid-dark::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(232,98,42,0.12) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0}
+.dot-grid-dark>*{position:relative;z-index:1}
+
+/* CUSTOM CURSOR */
+body.cursor-ready{cursor:none}
+body.cursor-ready a,body.cursor-ready button{cursor:none}
+.cursor-dot{width:8px;height:8px;background:var(--truck-orange);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);opacity:0;transition:transform 0.15s ease,width 0.2s,height 0.2s}
+.cursor-ring{width:32px;height:32px;border:1.5px solid rgba(232,98,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0;transition:width 0.2s,height 0.2s,border-color 0.2s}
+.cursor-dot.active{transform:translate(-50%,-50%) scale(2.5);background:var(--truck-orange)}
+.cursor-ring.active{width:48px;height:48px;border-color:rgba(232,98,42,0.8)}
 </style>
 </head>
 <body>
 
 <section class="hero">
-  <nav class="nav">
+  <div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<nav class="nav">
     <div class="logo">HaulRoute</div>
     <div class="nav-badge">Early Access — Free 30 Days</div>
   </nav>
   <div class="hero-eyebrow">AI Route Optimizer for Small Fleets</div>
-  <h1 class="hero-title">Stop losing<br><span>money</span> on<br>bad routes.</h1>
-  <p class="hero-sub">Built for 1–9 truck owner-operators. Plan smarter routes, dispatch faster, save fuel. No training needed.</p>
+  <h1 class="hero-title">Your drivers<br>are bleeding<br><span class="shimmer-text">time & fuel.</span></h1>
+  <p class="hero-sub">Every wrong turn costs you money. HaulRoute plans the smartest routes across your fleet in 30 seconds — so your trucks move, not sit.</p>
   <div class="cta-row">
-    <button class="cta-primary" onclick="window.open('https://tally.so/r/jaxPK6','_blank')">Start Free — 30 Days</button>
-    <button class="cta-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See how it works</button>
+    <button class="cta-primary magnetic" onclick="window.open('https://tally.so/r/jaxPK6','_blank')">Start Free — 30 Days</button>
+    <button class="cta-ghost magnetic" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See how it works</button>
   </div>
   <div class="trust-row">
     <div class="trust-item"><div class="trust-dot"></div>No app install for drivers</div>
@@ -112,86 +165,96 @@
 </section>
 
 <div class="stats-strip">
-  <div class="stat"><div class="stat-num">20<span class="stat-unit">%</span></div><div class="stat-label">Avg fuel saved</div></div>
-  <div class="stat"><div class="stat-num">2<span class="stat-unit">hrs</span></div><div class="stat-label">Saved per day</div></div>
+  <div class="stat"><div class="stat-num"><span class="counter" data-target="20">0</span><span class="stat-unit">%</span></div><div class="stat-label">Avg fuel saved</div></div>
+  <div class="stat"><div class="stat-num"><span class="counter" data-target="2">0</span><span class="stat-unit">hrs</span></div><div class="stat-label">Saved per day</div></div>
   <div class="stat"><div class="stat-num">$29<span class="stat-unit">/mo</span></div><div class="stat-label">Starting price</div></div>
-  <div class="stat"><div class="stat-num">30<span class="stat-unit">s</span></div><div class="stat-label">To plan any route</div></div>
+  <div class="stat"><div class="stat-num"><span class="counter" data-target="30">0</span><span class="stat-unit">s</span></div><div class="stat-label">To plan any route</div></div>
 </div>
 
-<div class="section">
-  <div class="section-label">The Problem</div>
-  <h2 class="section-title">Sound familiar?</h2>
+<div class="section dot-grid-cream">
+  <div class="section-label reveal">The Problem</div>
+  <h2 class="section-title reveal">Sound familiar?</h2>
   <p class="section-sub">Every small fleet owner deals with the same daily headaches — and they're all costing you money.</p>
   <div class="problems">
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <svg class="problem-icon" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="none" stroke="#1A1A18" stroke-width="2"/><path d="M18 10v8l5 5" stroke="#1A1A18" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
       <div class="problem-title">Hours wasted planning</div>
       <div class="problem-desc">Figuring out stop order across multiple trucks takes your whole morning before anyone moves.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <svg class="problem-icon" viewBox="0 0 36 36"><rect x="4" y="8" width="28" height="20" rx="2" fill="none" stroke="#1A1A18" stroke-width="2"/><path d="M4 14h28M12 14v14M24 14v14" stroke="#1A1A18" stroke-width="1.5" fill="none"/></svg>
       <div class="problem-title">Still using spreadsheets</div>
       <div class="problem-desc">Excel and WhatsApp weren't built for dispatch. Mistakes cost you fuel, time, and customer trust.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <svg class="problem-icon" viewBox="0 0 36 36"><path d="M18 4L4 32h28L18 4z" fill="none" stroke="#1A1A18" stroke-width="2"/><path d="M18 14v8M18 26v2" stroke="#1A1A18" stroke-width="2" stroke-linecap="round"/></svg>
       <div class="problem-title">Enterprise tools cost too much</div>
       <div class="problem-desc">Tools built for 50+ truck fleets charge $150+/month. You don't need all that. You need something simple.</div>
     </div>
-    <div class="problem-card">
+    <div class="problem-card reveal">
       <svg class="problem-icon" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="#1A1A18" stroke-width="2"/><path d="M18 10v2M18 24v2M10 18h2M24 18h2" stroke="#1A1A18" stroke-width="1.5" stroke-linecap="round"/></svg>
       <div class="problem-title">Drivers call for directions</div>
       <div class="problem-desc">Your phone rings all day with drivers asking where to go next. It breaks your focus every time.</div>
     </div>
+    <div class="problem-card reveal">
+      <svg class="problem-icon" viewBox="0 0 36 36"><path d="M6 28L18 8l12 20H6z" fill="none" stroke="#1A1A18" stroke-width="2" stroke-linejoin="round"/><path d="M18 16v6M18 24v2" stroke="#1A1A18" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="problem-title">Fuel costs are killing margins</div>
+      <div class="problem-desc">Without optimized routes your trucks burn fuel on unnecessary miles every single day — and those costs add up to thousands every month.</div>
+    </div>
+    <div class="problem-card reveal">
+      <svg class="problem-icon" viewBox="0 0 36 36"><rect x="4" y="4" width="28" height="28" rx="3" fill="none" stroke="#1A1A18" stroke-width="2"/><path d="M4 12h28M12 4v8M24 4v8" stroke="#1A1A18" stroke-width="1.5" stroke-linecap="round"/><path d="M10 20h6M10 26h10" stroke="#1A1A18" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="problem-title">No proof of delivery system</div>
+      <div class="problem-desc">Disputes with clients over missed or late deliveries with zero documentation to back you up. No timestamps, no records, no protection.</div>
+    </div>
   </div>
 </div>
 
-<div class="section" id="how">
-  <div class="section-label">How It Works</div>
-  <h2 class="section-title">3 steps.<br>Done in 30 seconds.</h2>
+<div class="section dot-grid-cream" id="how">
+  <div class="section-label reveal">How It Works</div>
+  <h2 class="section-title reveal">3 steps.<br>Done in 30 seconds.</h2>
   <p class="section-sub">No training. No onboarding calls. No complicated setup. If you can type a list, you can use HaulRoute.</p>
   <div class="route-visual">
     <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888780;margin-bottom:1rem">Optimized route — Truck 1</div>
     <div class="route-stop">
       <div class="stop-dot depot">D</div>
-      <div class="stop-info"><div class="stop-name">Depot — Melrose Park, IL</div><div class="stop-detail">7:00 AM departure</div></div>
+      <div class="stop-info"><div class="stop-name">Depot — Forest Park, GA</div><div class="stop-detail">7:00 AM departure</div></div>
     </div>
     <div class="route-stop">
       <div class="stop-dot">1</div>
-      <div class="stop-info"><div class="stop-name">Downtown Chicago — Warehouse District</div><div class="stop-detail">Est. arrival 7:38 AM</div></div>
+      <div class="stop-info"><div class="stop-name">East Point — Industrial Blvd</div><div class="stop-detail">Est. arrival 7:35 AM</div></div>
       <div class="stop-badge">Saved 18 min</div>
     </div>
     <div class="route-stop">
       <div class="stop-dot">2</div>
-      <div class="stop-info"><div class="stop-name">Oak Park — Industrial Ave</div><div class="stop-detail">Est. arrival 8:25 AM</div></div>
+      <div class="stop-info"><div class="stop-name">College Park — Main Distribution</div><div class="stop-detail">Est. arrival 8:18 AM</div></div>
     </div>
     <div class="route-stop">
       <div class="stop-dot">3</div>
-      <div class="stop-info"><div class="stop-name">Cicero — Route 50 Drop</div><div class="stop-detail">Est. arrival 9:10 AM</div></div>
+      <div class="stop-info"><div class="stop-name">Hapeville — Airport Cargo Zone</div><div class="stop-detail">Est. arrival 9:05 AM</div></div>
       <div class="stop-badge">Fuel saved: $6.80</div>
     </div>
     <div class="route-stop">
       <div class="stop-dot depot">D</div>
-      <div class="stop-info"><div class="stop-name">Depot — Return to Melrose Park</div><div class="stop-detail">Est. return 10:05 AM</div></div>
+      <div class="stop-info"><div class="stop-name">Depot — Return to Forest Park</div><div class="stop-detail">Est. return 9:55 AM</div></div>
     </div>
   </div>
   <div class="features">
-    <div class="feature-card">
+    <div class="feature-card reveal-left">
       <div class="feature-num">01</div>
       <div class="feature-title">Paste your stops</div>
       <div class="feature-desc">Type or paste your delivery addresses. Tell HaulRoute how many trucks you have and where they start.</div>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal-right">
       <div class="feature-num">02</div>
       <div class="feature-title">AI builds the plan</div>
       <div class="feature-desc">HaulRoute splits stops across your trucks and finds the most fuel-efficient order for each driver in seconds.</div>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal-left">
       <div class="feature-num">03</div>
       <div class="feature-title">Send to drivers</div>
       <div class="feature-desc">One click sends each driver their route directly to Google Maps. No app install. No confusion.</div>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal-right">
       <div class="feature-num">04</div>
       <div class="feature-title">Track &amp; report</div>
       <div class="feature-desc">See how much fuel and time you saved each week. Real numbers in dollars so you can see the ROI clearly.</div>
@@ -199,10 +262,10 @@
   </div>
 </div>
 
-<div class="pricing-section">
+<div class="pricing-section dot-grid-dark">
   <div class="pricing-inner">
-    <div class="section-label" style="color:var(--truck-orange)">Pricing</div>
-    <h2 class="section-title" style="color:#F5F0E8">Simple pricing.<br>No surprises.</h2>
+    <div class="section-label reveal" style="color:var(--truck-orange)">Pricing</div>
+    <h2 class="section-title reveal" style="color:#F5F0E8">Simple pricing.<br>No surprises.</h2>
     <div class="pricing-cards">
       <div class="price-card">
         <div class="plan-name">Starter</div>
@@ -260,10 +323,10 @@
   </div>
 </div>
 
-<div class="signup-section" id="signup">
+<div class="signup-section hex-light" id="signup">
   <div class="signup-inner">
-    <div class="section-label" style="text-align:center">Early Access</div>
-    <h2 class="signup-title">Get 30 days free.<br>No card needed.</h2>
+    <div class="section-label reveal" style="text-align:center">Early Access</div>
+    <h2 class="signup-title reveal">Get 30 days free.<br>No card needed.</h2>
     <p class="signup-sub">Join owner-operators already on the waitlist. We'll email you the moment early access opens — first come, first served.</p>
     <div class="email-form">
       <input type="email" class="email-input" id="emailInput" placeholder="your@email.com"/>
@@ -280,6 +343,64 @@
 </div>
 
 <script>
+// INIT
+document.body.classList.add('js-ready');
+
+// SCROLL REVEAL
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObserver.observe(el));
+
+// NUMBER COUNTER
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.getAttribute('data-target'));
+      const duration = 1200;
+      const start = performance.now();
+      function update(time) {
+        const progress = Math.min((time - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+// PARTICLES
+const particleContainer = document.getElementById('particles');
+if (particleContainer) {
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*5}s`;
+    particleContainer.appendChild(p);
+  }
+}
+
+// MAGNETIC BUTTONS
+document.querySelectorAll('.magnetic').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width/2) * 0.2;
+    const y = (e.clientY - rect.top - rect.height/2) * 0.2;
+    btn.style.transform = `translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0)');
+});
+
 function handleSignup(){
   const email=document.getElementById('emailInput').value;
   if(!email||!email.includes('@')){
@@ -291,6 +412,40 @@ function handleSignup(){
   document.querySelector('.submit-btn').style.background='#3B6D11';
   document.getElementById('successMsg').style.display='block';
 }
+
+// CUSTOM CURSOR
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+let ringX = 0, ringY = 0, dotX = 0, dotY = 0;
+
+document.addEventListener('mousemove', e => {
+  dotX = e.clientX; dotY = e.clientY;
+  cursorDot.style.left = dotX + 'px';
+  cursorDot.style.top = dotY + 'px';
+  cursorDot.style.opacity = '1';
+  cursorRing.style.opacity = '1';
+  document.body.classList.add('cursor-ready');
+});
+
+function animateCursor() {
+  ringX += (dotX - ringX) * 0.1;
+  ringY += (dotY - ringY) * 0.1;
+  cursorRing.style.left = ringX + 'px';
+  cursorRing.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursorDot.classList.add('active');
+    cursorRing.classList.add('active');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursorDot.classList.remove('active');
+    cursorRing.classList.remove('active');
+  });
+});
 </script>
 </body>
 </html>
