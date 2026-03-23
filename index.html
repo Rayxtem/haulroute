@@ -15,10 +15,10 @@
   }
   body{font-family:'DM Sans',sans-serif;background:var(--truck-cream);color:var(--truck-dark);overflow-x:hidden}
   .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:3rem 2rem 2rem;position:relative;background:var(--truck-dark)}
-  .nav{display:flex;justify-content:space-between;align-items:center;position:absolute;top:0;left:0;right:0;padding:1.5rem 2rem}
+  .nav{display:flex;justify-content:space-between;align-items:center;position:absolute;top:0;left:0;right:0;padding:1.5rem 2rem;z-index:10}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--truck-orange);letter-spacing:2px}
   .nav-badge{background:rgba(232,98,42,0.15);border:0.5px solid rgba(232,98,42,0.4);color:var(--truck-orange);font-size:12px;padding:6px 14px;border-radius:20px}
-  .hero-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--truck-orange);margin-bottom:1.5rem}
+  .hero-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--truck-orange);margin-bottom:1.5rem;display:block}
   .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,10vw,96px);line-height:0.95;color:#F5F0E8;margin-bottom:1.5rem;max-width:800px}
   .hero-title span{color:var(--truck-orange)}
   .hero-sub{font-size:clamp(14px,2.5vw,18px);color:#B4B2A9;max-width:480px;line-height:1.7;margin-bottom:2.5rem;word-break:break-word}
@@ -47,7 +47,7 @@
   .features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:4rem}
   @media(max-width:768px){.features{grid-template-columns:1fr}}
 @media(max-width:480px){
-  .hero{padding:5rem 1.25rem 2rem}
+  .hero{padding:7rem 1.25rem 2rem}
   .hero-sub{font-size:14px;max-width:100%}
   .hero-title{font-size:clamp(42px,12vw,72px)}
   .cta-row{flex-direction:column}
