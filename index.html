@@ -19,9 +19,9 @@
   .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--truck-orange);letter-spacing:2px}
   .nav-badge{background:rgba(232,98,42,0.15);border:0.5px solid rgba(232,98,42,0.4);color:var(--truck-orange);font-size:12px;padding:6px 14px;border-radius:20px}
   .hero-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--truck-orange);margin-bottom:1.5rem}
-  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,10vw,96px);line-height:0.95;color:#F5F0E8;margin-bottom:1.5rem;max-width:800px}
+  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,10vw,96px);line-height:0.95;color:#F5F0E8;margin-bottom:1.5rem;max-width:800px}
   .hero-title span{color:var(--truck-orange)}
-  .hero-sub{font-size:18px;color:#B4B2A9;max-width:480px;line-height:1.6;margin-bottom:2.5rem}
+  .hero-sub{font-size:clamp(14px,2.5vw,18px);color:#B4B2A9;max-width:480px;line-height:1.7;margin-bottom:2.5rem;word-break:break-word}
   .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:3rem}
   .cta-primary{background:var(--truck-orange);color:#fff;border:none;padding:16px 32px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;border-radius:4px;cursor:pointer;transition:opacity 0.2s}
   .cta-primary:hover{opacity:0.88}
@@ -46,6 +46,15 @@
   .problem-desc{font-size:13px;color:#5F5E5A;line-height:1.5}
   .features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:4rem}
   @media(max-width:768px){.features{grid-template-columns:1fr}}
+@media(max-width:480px){
+  .hero{padding:5rem 1.25rem 2rem}
+  .hero-sub{font-size:14px;max-width:100%}
+  .hero-title{font-size:clamp(42px,12vw,72px)}
+  .cta-row{flex-direction:column}
+  .cta-primary,.cta-ghost{width:100%;text-align:center}
+  .trust-row{gap:1rem}
+  .nav{padding:1rem 1.25rem}
+}
   .feature-card{background:#fff;border:0.5px solid #D3D1C7;border-radius:8px;padding:2rem}
   .feature-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#D3D1C7;line-height:1;margin-bottom:0.5rem}
   .feature-title{font-size:16px;font-weight:500;color:var(--truck-dark);margin-bottom:0.5rem}
@@ -53,13 +62,13 @@
   .pricing-section{background:var(--truck-dark);padding:4rem 2rem}
   .pricing-inner{max-width:1000px;margin:0 auto}
   .pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#333;border:1px solid #333;margin-top:2.5rem}
-  .price-card{background:#1A1A18;padding:2rem 1.5rem}
-  .price-card.featured{background:#242420;border-top:2px solid var(--truck-orange)}
+  .price-card{background:#1A1A18;padding:2rem 1.5rem;display:flex;flex-direction:column}
+  .price-card.featured{background:#242420;border-top:2px solid var(--truck-orange);display:flex;flex-direction:column}
   .plan-name{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#888780;margin-bottom:1rem}
   .plan-price{font-family:'Bebas Neue',sans-serif;font-size:52px;color:#F5F0E8;line-height:1}
   .plan-price span{font-size:18px;color:#888780;font-family:'DM Sans',sans-serif;font-weight:400}
   .plan-trucks{font-size:13px;color:#888780;margin:0.5rem 0 1.5rem;padding-bottom:1.5rem;border-bottom:0.5px solid #333}
-  .plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:2rem}
+  .plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:2rem;flex:1}
   .plan-features li{font-size:13px;color:#B4B2A9;display:flex;align-items:center;gap:8px}
   .check{width:16px;height:16px;background:rgba(232,98,42,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .check::after{content:'';width:5px;height:5px;background:var(--truck-orange);border-radius:50%}
