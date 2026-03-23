@@ -272,15 +272,103 @@ body.cursor-ready a,body.cursor-ready button{cursor:none}
   </div>
 </div>
 
+<div style="padding:4rem 2rem;background:#F5F0E8;position:relative" class="dot-grid-cream">
+  <div style="max-width:700px;margin:0 auto">
+    <div class="section-label reveal" style="margin-bottom:0.75rem">Why HaulRoute</div>
+    <h2 class="section-title reveal" style="color:#1A1A18;margin-bottom:0.5rem">Built for the way<br>you actually work.</h2>
+    <p style="font-size:16px;color:#5F5E5A;max-width:520px;line-height:1.6;margin-bottom:3rem;font-weight:300" class="reveal">No bloated dashboards. No per-driver fees. No 6-month contracts. Just a tool that gets out of your way and helps your trucks move smarter.</p>
+
+    <div style="display:flex;flex-direction:column;gap:0;border:0.5px solid #D3D1C7;border-radius:8px;overflow:hidden" class="reveal">
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">Flat pricing — always</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">One fixed monthly price no matter how many stops or routes you run. No per-driver fees, no surprise charges at the end of the month.</div>
+        </div>
+      </div>
+
+      <div style="height:0.5px;background:#D3D1C7"></div>
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">Built for trucking — not general delivery</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">Most route tools are built for food delivery or courier services. HaulRoute is designed specifically for freight and trucking — the way owner-operators actually operate on the road.</div>
+        </div>
+      </div>
+
+      <div style="height:0.5px;background:#D3D1C7"></div>
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">30 seconds to a full route plan</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">Paste your stops, tell us how many trucks you have, and HaulRoute builds the full optimized plan in under 30 seconds. No training. No setup calls. No manual required.</div>
+        </div>
+      </div>
+
+      <div style="height:0.5px;background:#D3D1C7"></div>
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">Sends routes straight to Google Maps</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">No app for your drivers to install. No logins. HaulRoute sends each driver their optimized route directly to Google Maps — they just tap and follow.</div>
+        </div>
+      </div>
+
+      <div style="height:0.5px;background:#D3D1C7"></div>
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">ROI visible in your first week</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">The average small fleet saves 20% on fuel and 2 hours of planning per day in the first week. At $39/month HaulRoute pays for itself on day one — and keeps paying you back every week after.</div>
+        </div>
+      </div>
+
+      <div style="height:0.5px;background:#D3D1C7"></div>
+
+      <div class="why-item" onclick="toggleWhy(this)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;background:#fff;cursor:pointer;transition:background 0.2s">
+          <span style="font-size:15px;font-weight:500;color:#1A1A18">No contracts. Cancel anytime.</span>
+          <svg class="why-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s;flex-shrink:0"><path d="M4 6l4 4 4-4" stroke="#E8622A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-body" style="max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.3s">
+          <div style="padding:0 1.5rem 1.25rem;font-size:13px;color:#5F5E5A;line-height:1.7;border-top:0.5px solid #D3D1C7">Month to month. No annual lock-ins. No cancellation fees. We earn your business every single month — or you walk. That is how confident we are in what we built.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div class="pricing-section dot-grid-dark">
   <div class="pricing-inner">
     <div class="section-label reveal" style="color:var(--truck-orange)">Pricing</div>
     <h2 class="section-title reveal" style="color:#F5F0E8">Simple pricing.<br>No surprises.</h2>
-    <div class="pricing-cards">
+    <div style="text-align:center;margin-bottom:1.5rem">
+  <span style="font-size:13px;color:#888780">All plans include a </span>
+  <span style="font-size:13px;color:var(--truck-orange);font-weight:500">30-day free trial</span>
+  <span style="font-size:13px;color:#888780"> — no credit card required</span>
+</div>
+<div class="pricing-cards">
       <div class="price-card">
         <div class="plan-name">Starter</div>
-        <div class="plan-price">$19<span>/mo</span></div>
+        <div class="plan-price">$39<span>/mo</span></div>
         <div class="plan-trucks">Up to 3 trucks</div>
+        <div style="font-size:11px;color:#639922;margin-bottom:1rem;padding:4px 8px;background:rgba(99,153,34,0.1);border-radius:3px;display:inline-block">Saves ~$800/mo in fuel</div>
         <ul class="plan-features">
           <li><div class="check"></div>Unlimited route plans</li>
           <li><div class="check"></div>Google Maps export</li>
@@ -291,8 +379,9 @@ body.cursor-ready a,body.cursor-ready button{cursor:none}
       </div>
       <div class="price-card featured">
         <div class="plan-name">Growth — Most Popular</div>
-        <div class="plan-price">$29<span>/mo</span></div>
+        <div class="plan-price">$69<span>/mo</span></div>
         <div class="plan-trucks">Up to 9 trucks</div>
+        <div style="font-size:11px;color:#639922;margin-bottom:1rem;padding:4px 8px;background:rgba(99,153,34,0.12);border-radius:3px;display:inline-block">Saves ~$2,400/mo in fuel</div>
         <ul class="plan-features">
           <li><div class="check"></div>Everything in Starter</li>
           <li><div class="check"></div>Multi-truck splitting</li>
@@ -304,8 +393,9 @@ body.cursor-ready a,body.cursor-ready button{cursor:none}
       </div>
       <div class="price-card">
         <div class="plan-name">Pro</div>
-        <div class="plan-price">$59<span>/mo</span></div>
+        <div class="plan-price">$99<span>/mo</span></div>
         <div class="plan-trucks">Unlimited trucks</div>
+        <div style="font-size:11px;color:#639922;margin-bottom:1rem;padding:4px 8px;background:rgba(99,153,34,0.1);border-radius:3px;display:inline-block">Saves ~$4,000+/mo in fuel</div>
         <ul class="plan-features">
           <li><div class="check"></div>Everything in Growth</li>
           <li><div class="check"></div>API access</li>
@@ -456,6 +546,25 @@ document.querySelectorAll('a, button').forEach(el => {
     cursorRing.classList.remove('active');
   });
 });
+
+// WHY HAULROUTE ACCORDION
+function toggleWhy(item) {
+  const body = item.querySelector('.why-body');
+  const arrow = item.querySelector('.why-arrow');
+  const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
+  
+  // Close all
+  document.querySelectorAll('.why-item .why-body').forEach(b => b.style.maxHeight = '0px');
+  document.querySelectorAll('.why-item .why-arrow').forEach(a => a.style.transform = 'rotate(0deg)');
+  document.querySelectorAll('.why-item > div:first-child').forEach(d => d.style.background = '#fff');
+
+  // Open clicked if it was closed
+  if (!isOpen) {
+    body.style.maxHeight = body.scrollHeight + 40 + 'px';
+    arrow.style.transform = 'rotate(180deg)';
+    item.querySelector('div:first-child').style.background = '#faf7f2';
+  }
+}
 </script>
 </body>
 </html>
