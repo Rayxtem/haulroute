@@ -13,9 +13,9 @@
     --truck-cream:#F5F0E8;
     --truck-muted:#888780;
   }
-  body{font-family:'DM Sans',sans-serif;background:var(--truck-cream);color:var(--truck-dark);overflow-x:hidden}
+  body{font-family:'DM Sans',sans-serif;background:var(--truck-cream);color:var(--truck-dark);overflow-x:hidden;max-width:2560px;margin:0 auto}
   .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:3rem 2rem 2rem;position:relative;background:var(--truck-dark)}
-  .nav{display:flex;justify-content:space-between;align-items:center;position:absolute;top:0;left:0;right:0;padding:1.5rem 2rem;z-index:10}
+  .nav{display:flex;justify-content:space-between;align-items:center;position:fixed;top:0;left:0;right:0;padding:1.5rem 2rem;z-index:100;background:rgba(26,26,24,0.95)}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--truck-orange);letter-spacing:2px}
   .nav-badge{background:rgba(232,98,42,0.15);border:0.5px solid rgba(232,98,42,0.4);color:var(--truck-orange);font-size:12px;padding:6px 14px;border-radius:20px}
   .hero-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--truck-orange);margin-bottom:1.5rem;display:block}
@@ -47,7 +47,7 @@
   .features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:4rem}
   @media(max-width:768px){.features{grid-template-columns:1fr}}
 @media(max-width:480px){
-  .hero{padding:7rem 1.25rem 2rem}
+  .hero{padding:9rem 1.25rem 2rem}
   .hero-sub{font-size:14px;max-width:100%}
   .hero-title{font-size:clamp(42px,12vw,72px)}
   .cta-row{flex-direction:column}
@@ -148,11 +148,64 @@ body.cursor-ready a,body.cursor-ready button{cursor:none}
 .cursor-ring{width:32px;height:32px;border:1.5px solid rgba(232,98,42,0.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0;transition:width 0.2s,height 0.2s,border-color 0.2s}
 .cursor-dot.active{transform:translate(-50%,-50%) scale(2.5);background:var(--truck-orange)}
 .cursor-ring.active{width:48px;height:48px;border-color:rgba(232,98,42,0.8)}
+
+/* LARGE SCREEN FIXES (1440px+) */
+@media(min-width:1440px){
+  .hero{padding:9rem 6rem 3rem}
+  .nav{padding:1.5rem 6rem}
+  .stats-strip{padding:1.5rem 6rem}
+  .section{padding:5rem 6rem;max-width:100%}
+  .section > *{max-width:1200px;margin-left:auto;margin-right:auto}
+  .problems{max-width:1200px;margin-left:auto;margin-right:auto;margin-bottom:4rem}
+  .features{max-width:1200px;margin-left:auto;margin-right:auto}
+  .route-visual{max-width:600px}
+  .pricing-inner{max-width:1200px}
+  .signup-inner{max-width:700px}
+  footer{padding:2rem 6rem}
+  .resume-banner{padding:1.5rem 6rem}
+}
+
+/* 1920px FIXES */
+@media(min-width:1920px){
+  .hero{padding:10rem 10rem 4rem}
+  .nav{padding:1.5rem 10rem}
+  .stats-strip{padding:2rem 10rem}
+  .section{padding:6rem 10rem}
+  .pricing-section{padding:6rem 10rem}
+  .signup-section{padding:6rem 10rem}
+  footer{padding:2rem 10rem}
+  .hero-title{font-size:120px}
+  .problems{grid-template-columns:repeat(4,1fr)}
+  .pricing-cards{grid-template-columns:repeat(4,1fr)}
+}
+
+/* 2K/4K FIXES (2560px+) */
+@media(min-width:2560px){
+  .hero{padding:12rem 14rem 5rem}
+  .nav{padding:2rem 14rem}
+  .stats-strip{padding:2rem 14rem}
+  .section{padding:8rem 14rem}
+  .pricing-section{padding:8rem 14rem}
+  .signup-section{padding:8rem 14rem}
+  footer{padding:3rem 14rem}
+  .hero-title{font-size:150px}
+  .section-title{font-size:72px}
+  .hero-sub{font-size:22px;max-width:600px}
+  .problems{grid-template-columns:repeat(4,1fr)}
+  .features{grid-template-columns:repeat(2,1fr)}
+  .pricing-cards{grid-template-columns:repeat(4,1fr)}
+  .stat-num{font-size:56px}
+}
+
+/* AUDIT FIXES - no overflow anywhere */
+.hero{overflow:hidden}
+.stats-strip{overflow:hidden}
+.section{overflow:hidden}
+.pricing-section{overflow:hidden}
+.signup-section{overflow:hidden}
+.problems{overflow:hidden}
+.features{overflow:hidden}
 </style>
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
 <body>
 
