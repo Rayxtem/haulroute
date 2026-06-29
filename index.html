@@ -351,14 +351,13 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 2
    THREE.JS — 3D TRUCK BACKGROUND
 ================================================================ */
 (function initThree() {
-  // Skip on touch devices to preserve battery
   if (window.matchMedia('(pointer:coarse)').matches) {
     document.getElementById('three-bg').style.display = 'none';
     return;
   }
 
   const canvas = document.getElementById('three-bg');
-  const W = window.innerWidth, H = window.innerHeight;
+  let W = window.innerWidth, H = window.innerHeight;
 
   // ── RENDERER ──
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -369,222 +368,376 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 2
 
   // ── SCENE ──
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0A0A0A, 0.009); // much lighter fog
+  scene.fog = new THREE.FogExp2(0x0A0A0A, 0.008);
 
   // ── CAMERA ──
-  const camera = new THREE.PerspectiveCamera(52, W / H, 0.1, 120);
-  camera.position.set(0, 3.2, 11);
+  const camera = new THREE.PerspectiveCamera(52, W / H, 0.1, 140);
+  camera.position.set(0, 3.4, 12);
   camera.lookAt(0, 0, 0);
 
   // ── LIGHTS ──
-  const ambient = new THREE.AmbientLight(0xffffff, 1.1); // bright neutral fill
-  scene.add(ambient);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.05));
 
-  // Amber key light — strong, catches all surfaces
-  const keyLight = new THREE.DirectionalLight(0xF59E0B, 2.2);
+  const keyLight = new THREE.DirectionalLight(0xF59E0B, 2.0);
   keyLight.position.set(6, 10, 8);
   keyLight.castShadow = true;
   scene.add(keyLight);
 
-  // White-ish top light — reveals truck shapes clearly
-  const topLight = new THREE.DirectionalLight(0xffeedd, 1.6);
-  topLight.position.set(0, 12, 2);
+  const topLight = new THREE.DirectionalLight(0xfff0dd, 1.5);
+  topLight.position.set(0, 14, 2);
   scene.add(topLight);
 
-  // Cool fill from left
-  const fillLight = new THREE.DirectionalLight(0x88aacc, 0.9);
+  const fillLight = new THREE.DirectionalLight(0x8899bb, 0.75);
   fillLight.position.set(-8, 4, 2);
   scene.add(fillLight);
 
-  // ── ROAD GRID ──
-  // Infinite-feel ground plane with grid
-  const gridHelper = new THREE.GridHelper(120, 60, 0xF59E0B, 0x1a2030);
-  gridHelper.position.y = -1.55;
-  // Make grid lines very faint
-  gridHelper.material.transparent = true;
-  gridHelper.material.opacity = 0.28;
-  scene.add(gridHelper);
+  // ── GROUND + GRID ──
+  const grid = new THREE.GridHelper(120, 60, 0xF59E0B, 0x1a2030);
+  grid.position.y = -1.55;
+  grid.material.transparent = true;
+  grid.material.opacity = 0.25;
+  scene.add(grid);
 
-  // Ground plane (receives shadows, very dark)
-  const groundGeo  = new THREE.PlaneGeometry(120, 120);
-  const groundMat  = new THREE.MeshStandardMaterial({ color: 0x080808, roughness: 1, metalness: 0 });
-  const ground     = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = -1.56;
-  ground.receiveShadow = true;
-  scene.add(ground);
+  const gnd = new THREE.Mesh(
+    new THREE.PlaneGeometry(120, 120),
+    new THREE.MeshStandardMaterial({ color: 0x080808, roughness: 1 })
+  );
+  gnd.rotation.x = -Math.PI / 2;
+  gnd.position.y  = -1.56;
+  gnd.receiveShadow = true;
+  scene.add(gnd);
 
-  // ── MATERIALS (shared across trucks) ──
-  const matTrailer = new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.7, metalness: 0.6 });
-  const matCab     = new THREE.MeshStandardMaterial({ color: 0xc45f00, roughness: 0.6, metalness: 0.4 }); // amber-orange cab
-  const matWheel   = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.9, metalness: 0.3 });
-  const matRim     = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.3, metalness: 0.9 });
-  const matLens    = new THREE.MeshStandardMaterial({ color: 0xFFD700, emissive: 0xFFAA00, emissiveIntensity: 4.0, roughness: 0.05 });
-  const matExhaust = new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.9, metalness: 0.2 });
-  const matWindow  = new THREE.MeshStandardMaterial({ color: 0x1a3a5c, roughness: 0.05, metalness: 0.8, transparent: true, opacity: 0.85 });
+  // ── SHARED MATERIALS ──
+  const matTrailer = new THREE.MeshStandardMaterial({ color: 0x252525, roughness: 0.75, metalness: 0.55 });
+  const matCab     = new THREE.MeshStandardMaterial({ color: 0xB05500, roughness: 0.58, metalness: 0.35 });
+  const matTire    = new THREE.MeshStandardMaterial({ color: 0x101010, roughness: 0.95, metalness: 0.0  });
+  const matRim     = new THREE.MeshStandardMaterial({ color: 0xAAAAAA, roughness: 0.28, metalness: 0.92 });
+  const matHub     = new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5,  metalness: 0.7  });
+  const matRib     = new THREE.MeshStandardMaterial({ color: 0x303030, roughness: 0.8,  metalness: 0.4  });
+  const matDetail  = new THREE.MeshStandardMaterial({ color: 0x3a3a3a, roughness: 0.88, metalness: 0.25 });
+  const matWindow  = new THREE.MeshStandardMaterial({ color: 0x1a3550, roughness: 0.05, metalness: 0.85, transparent: true, opacity: 0.82 });
+  const matLens    = new THREE.MeshStandardMaterial({ color: 0xFFD700, emissive: 0xFFAA00, emissiveIntensity: 4.2, roughness: 0.05 });
+  const matChrome  = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.22, metalness: 0.95 });
 
-  // ── BUILD TRUCK FUNCTION ──
-  function buildTruck(scale) {
-    const group = new THREE.Group();
-    const s = scale || 1;
-
-    // Trailer body
-    const trailerGeo = new THREE.BoxGeometry(3.4 * s, 0.72 * s, 0.9 * s);
-    const trailer    = new THREE.Mesh(trailerGeo, matTrailer);
-    trailer.position.set(-0.45 * s, 0, 0);
-    trailer.castShadow = true;
-    group.add(trailer);
-
-    // Trailer top ridge (slight bevel feel)
-    const ridgeGeo = new THREE.BoxGeometry(3.3 * s, 0.06 * s, 0.85 * s);
-    const ridge    = new THREE.Mesh(ridgeGeo, matExhaust);
-    ridge.position.set(-0.45 * s, 0.39 * s, 0);
-    group.add(ridge);
-
-    // Cab body
-    const cabGeo = new THREE.BoxGeometry(0.82 * s, 0.68 * s, 0.88 * s);
-    const cab    = new THREE.Mesh(cabGeo, matCab);
-    cab.position.set(1.41 * s, 0.02 * s, 0);
-    cab.castShadow = true;
-    group.add(cab);
-
-    // Cab roof (slightly narrower, sits on top)
-    const roofGeo = new THREE.BoxGeometry(0.65 * s, 0.2 * s, 0.8 * s);
-    const roof    = new THREE.Mesh(roofGeo, matCab);
-    roof.position.set(1.38 * s, 0.44 * s, 0);
-    group.add(roof);
-
-    // Cab windshield
-    const windGeo = new THREE.BoxGeometry(0.06 * s, 0.38 * s, 0.74 * s);
-    const wind    = new THREE.Mesh(windGeo, matWindow);
-    wind.position.set(1.82 * s, 0.08 * s, 0);
-    group.add(wind);
-
-    // Exhaust stack
-    const exGeo = new THREE.CylinderGeometry(0.04 * s, 0.04 * s, 0.55 * s, 8);
-    const ex    = new THREE.Mesh(exGeo, matExhaust);
-    ex.position.set(1.2 * s, 0.65 * s, -0.28 * s);
-    group.add(ex);
-
-    // Fuel tank (cylinder on side)
-    const tankGeo = new THREE.CylinderGeometry(0.12 * s, 0.12 * s, 0.55 * s, 12);
-    const tank    = new THREE.Mesh(tankGeo, matRim);
-    tank.rotation.z = Math.PI / 2;
-    tank.position.set(0.9 * s, -0.28 * s, 0.5 * s);
-    group.add(tank);
-
-    // ── WHEELS ──
-    function addWheel(x, y, z) {
-      const wGroup = new THREE.Group();
-      const tireGeo = new THREE.CylinderGeometry(0.175 * s, 0.175 * s, 0.14 * s, 16);
-      const tire    = new THREE.Mesh(tireGeo, matWheel);
-      wGroup.add(tire);
-      const rimGeo  = new THREE.CylinderGeometry(0.09 * s, 0.09 * s, 0.15 * s, 8);
-      const rim     = new THREE.Mesh(rimGeo, matRim);
-      wGroup.add(rim);
-      wGroup.rotation.z = Math.PI / 2;
-      wGroup.position.set(x * s, y * s, z * s);
-      wGroup.castShadow = true;
-      group.add(wGroup);
-      return wGroup;
-    }
-
-    const wheels = [
-      addWheel(1.45, -0.365, 0.5),  // front-right
-      addWheel(1.45, -0.365, -0.5), // front-left
-      addWheel(-0.3, -0.365,  0.52),// rear-right-1
-      addWheel(-0.3, -0.365, -0.52),// rear-left-1
-      addWheel(-0.9, -0.365,  0.52),// rear-right-2
-      addWheel(-0.9, -0.365, -0.52),// rear-left-2
-      addWheel(-1.6, -0.365,  0.52),// trailer-right-1
-      addWheel(-1.6, -0.365, -0.52),// trailer-left-1
-    ];
-
-    // ── HEADLIGHTS ──
-    // Lens mesh
-    function addHeadlight(z) {
-      const lensGeo = new THREE.BoxGeometry(0.06 * s, 0.09 * s, 0.14 * s);
-      const lens    = new THREE.Mesh(lensGeo, matLens);
-      lens.position.set(1.845 * s, 0.02 * s, z * s);
-      group.add(lens);
-
-      // Point light per headlight
-      const pt = new THREE.PointLight(0xFFCC00, 3.5 * s, 10 * s);
-      pt.position.set(2.0 * s, 0.0, z * s);
-      group.add(pt);
-    }
-
-    addHeadlight( 0.28);
-    addHeadlight(-0.28);
-
-    // Position the whole truck so wheels sit on the ground
-    group.position.y = 0.175 * s + 1.56 - 1.56; // wheels flush with grid
-
-    return { group, wheels };
+  // ── MESH HELPER ──
+  function mk(parent, geo, mat, x, y, z, shadow) {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x, y, z);
+    if (shadow) m.castShadow = true;
+    parent.add(m);
+    return m;
   }
 
-  // ── CREATE 3 TRUCKS ──
-  // Lane definitions: { z, scale, speed, dir, startX, color }
+  // ── BUILD TRUCK (conventional cab-over-hood semi) ──
+  function buildTruck(sc) {
+    const s  = sc || 1;
+    const g  = new THREE.Group();
+
+    // ── Wheel constants ──
+    // TorusGeometry sits in the XY plane by default (ring visible from Z axis).
+    // The camera is at +Z so we see wheel faces — correct orientation with no rotation needed.
+    // Rolling motion: rotation.z (spinning the ring in XY plane = wheel rolling).
+    const WR  = 0.14 * s;      // torus center-ring radius
+    const WT  = 0.065 * s;     // torus tube radius
+    const WTR = WR + WT;       // total outer radius = 0.205 * s
+
+    // ── Y reference levels (local coords, y=0 = ground) ──
+    // Group will be placed at world y = -1.55 so local y=0 sits exactly on ground.
+    const FRAME_TOP = WTR * 2.0 + 0.06 * s; // top of frame rail, clear of wheel tops
+
+    // ─────────────────────────────────────────────────────────
+    // TRAILER
+    // ─────────────────────────────────────────────────────────
+    const TL  = 3.9 * s;   // trailer length along X
+    const TH  = 0.98 * s;  // trailer height
+    const TW  = 0.9  * s;  // trailer width (Z)
+    const TCX = -(TL * 0.5) - 0.28 * s;   // trailer center X
+    const TCY = FRAME_TOP + TH * 0.5;     // trailer center Y
+    const TTP = FRAME_TOP + TH;            // trailer top Y
+    const TRX = TCX - TL * 0.5;           // trailer rear X
+    const TFX = TCX + TL * 0.5;           // trailer front X
+
+    // Main box
+    mk(g, new THREE.BoxGeometry(TL, TH, TW), matTrailer, TCX, TCY, 0, true);
+
+    // Roof cap strip
+    mk(g, new THREE.BoxGeometry(TL + 0.02*s, 0.038*s, TW + 0.02*s), matDetail, TCX, TTP + 0.019*s, 0);
+
+    // Vertical panel ribs — both long sides (classic corrugated trailer look)
+    const RIBS = 8;
+    for (let i = 0; i <= RIBS; i++) {
+      const px = TRX + i * (TL / RIBS);
+      for (const pz of [TW * 0.5 + 0.012*s, -TW * 0.5 - 0.012*s]) {
+        mk(g, new THREE.BoxGeometry(0.024*s, TH * 0.96, 0.024*s), matRib, px, TCY, pz);
+      }
+    }
+
+    // Rear door details
+    for (const dz of [TW*0.5, -TW*0.5]) {
+      mk(g, new THREE.BoxGeometry(0.034*s, TH + 0.04*s, 0.034*s), matDetail, TRX, TCY, dz);
+    }
+    mk(g, new THREE.BoxGeometry(0.034*s, 0.034*s, TW + 0.04*s), matDetail, TRX, TTP, 0);    // top bar
+    mk(g, new THREE.BoxGeometry(0.026*s, TH * 0.97, 0.026*s), matDetail, TRX - 0.01*s, TCY, 0); // center split
+
+    // Rear bumper
+    mk(g, new THREE.BoxGeometry(0.07*s, 0.07*s, TW + 0.1*s), matChrome, TRX - 0.035*s, FRAME_TOP + 0.035*s, 0);
+
+    // Landing gear — two legs under front of trailer
+    for (const lgz of [TW*0.28, -TW*0.28]) {
+      const lgx = TFX - 0.42*s;
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.032*s, 0.032*s, FRAME_TOP, 6), matDetail);
+      leg.position.set(lgx, FRAME_TOP * 0.5, lgz);
+      g.add(leg);
+      mk(g, new THREE.BoxGeometry(0.13*s, 0.028*s, 0.13*s), matDetail, lgx, 0.014*s, lgz);
+    }
+
+    // Undercarriage rails
+    for (const rz of [TW*0.33, -TW*0.33]) {
+      mk(g, new THREE.BoxGeometry(TL + 0.08*s, 0.052*s, 0.052*s), matDetail, TCX, FRAME_TOP * 0.4, rz);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // FIFTH WHEEL (coupling disc between trailer and tractor)
+    // ─────────────────────────────────────────────────────────
+    const FWX = TFX + 0.05 * s;
+    const fw = new THREE.Mesh(new THREE.CylinderGeometry(0.2*s, 0.2*s, 0.04*s, 14), matChrome);
+    fw.position.set(FWX, FRAME_TOP, 0);
+    g.add(fw);
+    // Kingpin
+    mk(g, new THREE.CylinderGeometry(0.04*s, 0.04*s, 0.06*s, 8), matDetail, FWX, FRAME_TOP + 0.03*s, 0);
+    // Frame rails from fifth wheel to cab
+    const NECK = 0.2 * s;
+    for (const rz of [0.18*s, -0.18*s]) {
+      mk(g, new THREE.BoxGeometry(NECK, 0.04*s, 0.06*s), matDetail, FWX + NECK*0.5, FRAME_TOP, rz);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // CAB — conventional bonneted (cab-behind-hood) configuration
+    // ─────────────────────────────────────────────────────────
+    const CABX  = FWX + NECK;          // cab rear X
+    const CAB_L = 0.82 * s;
+    const CAB_H = 0.98 * s;
+    const CAB_W = 0.92 * s;
+    const CABCX = CABX + CAB_L * 0.5;
+    const CABCY = FRAME_TOP + CAB_H * 0.5;
+    const CABT  = FRAME_TOP + CAB_H;   // cab top Y
+    const CABFX = CABX + CAB_L;        // cab front X
+
+    // Cabin body
+    mk(g, new THREE.BoxGeometry(CAB_L, CAB_H, CAB_W), matCab, CABCX, CABCY, 0, true);
+
+    // Transition fill between trailer gap and cab
+    mk(g, new THREE.BoxGeometry(0.12*s, CAB_H*0.88, CAB_W*0.96), matDetail, CABX - 0.06*s, CABCY + 0.02*s, 0);
+
+    // Roof fairing (aerodynamic deflector — key silhouette piece)
+    const FH = 0.3 * s;
+    const FL = 0.65 * s;
+    mk(g, new THREE.BoxGeometry(FL, FH, CAB_W*0.94), matCab, CABCX - 0.03*s, CABT + FH*0.5, 0);
+
+    // Windshield — angled back ~12° for realism
+    {
+      const ws = new THREE.Mesh(new THREE.BoxGeometry(0.044*s, CAB_H*0.5, CAB_W*0.82), matWindow);
+      ws.rotation.z = -0.21;
+      ws.position.set(CABFX + 0.02*s, CABCY + CAB_H*0.1, 0);
+      g.add(ws);
+    }
+
+    // Side windows
+    for (const wz of [CAB_W*0.5 + 0.01*s, -CAB_W*0.5 - 0.01*s]) {
+      mk(g, new THREE.BoxGeometry(CAB_L*0.5, CAB_H*0.36, 0.034*s), matWindow, CABCX + CAB_L*0.06, CABCY + CAB_H*0.2, wz);
+    }
+
+    // Door seam lines
+    for (const sz of [CAB_W*0.5 + 0.004*s, -CAB_W*0.5 - 0.004*s]) {
+      mk(g, new THREE.BoxGeometry(CAB_L*0.76, 0.017*s, 0.017*s), matDetail, CABCX, FRAME_TOP + 0.14*s, sz);
+    }
+
+    // Side mirrors (arm + mirror head per side)
+    for (let side = 0; side < 2; side++) {
+      const mz   = side === 0 ? CAB_W*0.5 : -CAB_W*0.5;
+      const sign = side === 0 ? 1 : -1;
+      mk(g, new THREE.BoxGeometry(0.038*s, 0.038*s, 0.15*s),  matDetail, CABFX - 0.05*s, CABT - 0.12*s, mz + sign*0.075*s);
+      mk(g, new THREE.BoxGeometry(0.054*s, 0.1*s,   0.034*s), matChrome, CABFX - 0.05*s, CABT - 0.12*s, mz + sign*0.155*s);
+    }
+
+    // Entry steps (2 steps per side, under door)
+    for (let side = 0; side < 2; side++) {
+      const sz   = side === 0 ? CAB_W*0.5 + 0.01*s : -CAB_W*0.5 - 0.01*s;
+      const sign = side === 0 ? 1 : -1;
+      for (let st = 0; st < 2; st++) {
+        mk(g, new THREE.BoxGeometry(0.16*s, 0.034*s, 0.11*s), matDetail, CABX + 0.14*s, FRAME_TOP + (0.06 + st*0.1)*s, sz + sign*0.055*s);
+      }
+    }
+
+    // Exhaust stack (chrome, behind cab roofline)
+    {
+      const ex = new THREE.Mesh(new THREE.CylinderGeometry(0.036*s, 0.04*s, 0.65*s, 8), matChrome);
+      ex.position.set(CABX + 0.1*s, CABT + 0.32*s, -CAB_W*0.35);
+      g.add(ex);
+      // Stack tip (darker/wider)
+      mk(g, new THREE.CylinderGeometry(0.05*s, 0.036*s, 0.06*s, 8), matDetail, CABX + 0.1*s, CABT + 0.68*s, -CAB_W*0.35);
+    }
+
+    // Fuel tank (cylinder on passenger side)
+    {
+      const ftg = new THREE.CylinderGeometry(0.12*s, 0.12*s, 0.6*s, 12);
+      ftg.rotateZ(Math.PI / 2);
+      const ft = new THREE.Mesh(ftg, matChrome);
+      ft.position.set(CABX + 0.28*s, FRAME_TOP + 0.12*s, CAB_W*0.5 + 0.07*s);
+      g.add(ft);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // HOOD (the bonneted front — longer than cab is tall)
+    // ─────────────────────────────────────────────────────────
+    const HOOD_L = 1.1 * s;
+    const HOOD_H = 0.7  * s;   // hood is shorter than cab — crucial for conventional look
+    const HOOD_W = CAB_W * 0.97;
+    const HOODCX = CABFX + HOOD_L * 0.5;
+    const HOODCY = FRAME_TOP + HOOD_H * 0.5;
+    const HOODT  = FRAME_TOP + HOOD_H;
+    const HOODFX = CABFX + HOOD_L;     // front of hood / rear of grille
+
+    mk(g, new THREE.BoxGeometry(HOOD_L, HOOD_H, HOOD_W), matCab, HOODCX, HOODCY, 0, true);
+
+    // Engine block bump on top of hood
+    mk(g, new THREE.BoxGeometry(HOOD_L*0.55, 0.068*s, HOOD_W*0.3), matCab, HOODCX - 0.05*s, HOODT + 0.034*s, 0);
+
+    // Grille face (slightly recessed, darker)
+    mk(g, new THREE.BoxGeometry(0.065*s, HOOD_H*0.72, HOOD_W*0.78), matDetail, HOODFX + 0.032*s, HOODCY + 0.03*s, 0);
+
+    // Grille slats (5 horizontal bars)
+    for (let i = 0; i < 5; i++) {
+      mk(g, new THREE.BoxGeometry(0.088*s, 0.024*s, HOOD_W*0.76), matChrome, HOODFX + 0.044*s, FRAME_TOP + 0.1*s + i * HOOD_H * 0.13, 0);
+    }
+
+    // Front bumper (full width, sits low)
+    mk(g, new THREE.BoxGeometry(0.12*s, 0.2*s, HOOD_W + 0.12*s), matChrome, HOODFX + 0.06*s, FRAME_TOP + 0.1*s, 0);
+
+    // Headlight lenses + PointLights
+    for (const lz of [HOOD_W*0.34, -HOOD_W*0.34]) {
+      mk(g, new THREE.BoxGeometry(0.058*s, 0.1*s, 0.14*s), matLens, HOODFX + 0.03*s, FRAME_TOP + 0.27*s, lz);
+      const pt = new THREE.PointLight(0xFFCC00, 4.0 * s, 13 * s);
+      pt.position.set(HOODFX + 0.18*s, FRAME_TOP + 0.27*s, lz);
+      g.add(pt);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // WHEELS — TorusGeometry for proper pneumatic tire shape
+    // ─────────────────────────────────────────────────────────
+    const allWheels = [];
+
+    function addWheel(wx, wz) {
+      const wg = new THREE.Group();
+
+      // Torus tire (XY plane default — reads as circle from camera at +Z)
+      wg.add(new THREE.Mesh(new THREE.TorusGeometry(WR, WT, 8, 22), matTire));
+
+      // Rim cylinder — CylinderGeometry rotated to align with torus hole (Z axis)
+      const rg = new THREE.CylinderGeometry(WR*0.87, WR*0.87, WT*1.9, 14);
+      rg.rotateX(Math.PI / 2);
+      wg.add(new THREE.Mesh(rg, matRim));
+
+      // Centre hub cap
+      const hg = new THREE.CylinderGeometry(WR*0.24, WR*0.24, WT*2.05, 8);
+      hg.rotateX(Math.PI / 2);
+      wg.add(new THREE.Mesh(hg, matHub));
+
+      // 5 spokes radiating from hub (BoxGeometry in XY plane)
+      for (let i = 0; i < 5; i++) {
+        const spk = new THREE.Mesh(
+          new THREE.BoxGeometry(WT*0.52, WR*1.52, WT*0.44),
+          matRim
+        );
+        spk.rotation.z = (i / 5) * Math.PI * 2;
+        wg.add(spk);
+      }
+
+      wg.position.set(wx, WTR, wz);   // WTR above ground so bottom of tire = y=0
+      g.add(wg);
+      allWheels.push(wg);
+    }
+
+    // Dual rear wheels: two tori close together on same axle
+    function addDual(wx, wz) {
+      addWheel(wx, wz + 0.13*s);
+      addWheel(wx, wz - 0.13*s);
+    }
+
+    // Front steer axle — single wheels
+    const FAX = HOODFX - 0.28*s;
+    addWheel(FAX,  TW * 0.53);
+    addWheel(FAX, -TW * 0.53);
+
+    // Rear drive axles — dual wheels (two tandems)
+    const RA1 = CABX - 0.07*s;
+    const RA2 = CABX - 0.55*s;
+    addDual(RA1,  TW * 0.51);
+    addDual(RA1, -TW * 0.51);
+    addDual(RA2,  TW * 0.51);
+    addDual(RA2, -TW * 0.51);
+
+    // Trailer tandem axles — dual wheels
+    const TA1 = TCX - TL * 0.26;
+    const TA2 = TA1 - 0.46*s;
+    addDual(TA1,  TW * 0.5);
+    addDual(TA1, -TW * 0.5);
+    addDual(TA2,  TW * 0.5);
+    addDual(TA2, -TW * 0.5);
+
+    // Place group so local y=0 lands on world ground (-1.55)
+    g.position.y = -1.55;
+
+    return { group: g, wheels: allWheels };
+  }
+
+  // ── LANE CONFIG & TRUCK CREATION ──
   const laneData = [
-    { z:  1.5, scale: 1.25, speed: 16, dir:  1, startX: -26, color: 0xF59E0B },
-    { z: -1.5, scale: 1.0,  speed: 22, dir: -1, startX:  26, color: 0xFFB700 },
-    { z: -4.0, scale: 0.78, speed: 30, dir:  1, startX: -28, color: 0xD97706 },
+    { z:  1.8, scale: 1.15, speed: 18, dir:  1, startX: -22 },
+    { z: -1.6, scale: 0.92, speed: 23, dir: -1, startX:  22 },
+    { z: -4.5, scale: 0.70, speed: 30, dir:  1, startX: -22 },
   ];
 
   const trucks = laneData.map(lane => {
     const { group, wheels } = buildTruck(lane.scale);
     group.position.x = lane.startX;
     group.position.z = lane.z;
-    if (lane.dir === -1) group.rotation.y = Math.PI; // face the other way
+    if (lane.dir === -1) group.rotation.y = Math.PI;
     scene.add(group);
-
     return { group, wheels, ...lane };
   });
 
-  // ── MOVE TRUCKS WITH GSAP ──
+  // ── GSAP MOVEMENT ──
   trucks.forEach(t => {
-    const endX   = t.dir === 1 ? 28 : -28;
-    const startX = t.dir === 1 ? -28 : 28;
-    const dist   = Math.abs(endX - startX);
-
+    const endX = t.dir === 1 ? 22 : -22;
     gsap.to(t.group.position, {
-      x: endX,
-      duration: t.speed,
-      ease: 'none',
-      repeat: -1,
-      onRepeat() { t.group.position.x = startX; }
+      x: endX, duration: t.speed, ease: 'none', repeat: -1,
+      onRepeat() { t.group.position.x = t.startX; }
     });
   });
 
-  // ── WHEEL ROTATION in render loop ──
-  // Spinning speed matches truck velocity
-  const wheelSpeeds = trucks.map(t => (28 * 2) / (t.speed * 60) * t.dir);
+  // ── WHEEL SPIN SPEED ──
+  // Torus in XY plane: rotation.z animates the ring — visually correct rolling motion
+  const wheelSpeeds = trucks.map(t => (t.dir === 1 ? -1 : 1) * 0.052);
 
-  // ── SCROLL → CAMERA RISE ──
-  // Wired through ScrollTrigger after GSAP is registered (done in main block)
-  window._threeCamera = camera; // expose so main GSAP block can wire it
+  // ── EXPOSE CAMERA FOR SCROLLTRIGGER (wired in main block below) ──
+  window._threeCamera = camera;
 
-  // ── RENDER inside GSAP ticker (one shared rAF) ──
-  let frame = 0;
+  // ── RENDER — inside shared GSAP ticker ──
   gsap.ticker.add(() => {
-    frame++;
-    // Rotate wheels every tick
-    trucks.forEach((t, i) => {
-      t.wheels.forEach(w => { w.rotation.x -= wheelSpeeds[i] * 0.16; });
-    });
+    trucks.forEach((t, i) => t.wheels.forEach(w => { w.rotation.z += wheelSpeeds[i]; }));
     renderer.render(scene, camera);
   });
 
   // ── RESIZE ──
   window.addEventListener('resize', () => {
-    const W = window.innerWidth, H = window.innerHeight;
+    W = window.innerWidth; H = window.innerHeight;
     camera.aspect = W / H;
     camera.updateProjectionMatrix();
     renderer.setSize(W, H);
   });
 
-  // Fade the canvas in on load
-  gsap.fromTo('#three-bg', { opacity: 0 }, { opacity: 0.92, duration: 2.2, ease: 'power2.out', delay: 0.3 });
+  gsap.fromTo('#three-bg', { opacity: 0 }, { opacity: 0.9, duration: 2.2, ease: 'power2.out', delay: 0.3 });
 })();
 
 /* ================================================================
